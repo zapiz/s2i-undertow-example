@@ -1,0 +1,47 @@
+Aufgabe
+
+Schreiben Sie ein Dockerfile für ein Basisimage mit installiertem jdk und
+dem Entrypoint javac, um Javadateien zu kompilieren. Nennen Sie das daraus resultierende
+Image <IhrName>/java-dev-compile.
+Erstellen Sie ein weiteres Image, das als Entrypoint Javadateien ausführt und nennem Sie
+das <IhrName>/java-dev-execute.
+
+Basisimage ubi8/ubi:8.5
+zu installieren: java-1.8.0-openjdk-devel
+
+erstellen Sie die Images in Ihrer lokalen Registry
+
+Clonen Sie folgendes git Repo: https://github.com/karen-student/javaKram
+
+Starten Sie einen Container mit dem zuvor erstellten compile Image und
+weisen Sie dabei das geclonte Java-Verzeichnis auf workstation als persistenten 
+Storage zu (-v HOSTDIR:CONTAINERDIR). 
+Der auf dem Container auszuführende Befehl soll alle *.java Dateien im 
+working directory kompilieren. Anschließend soll der Container automatisch gelöscht werden. 
+Denken Sie daran, den Selinux Kontext des Hostverzeichnisses anzupassen. 
+
+Starten Sie anschließend eine  Instanz des execute Images. Führen Sie dabei die Java Datei 
+aus, so dass der Text daraus auf Ihrem Terminal auf workstation ausgegeben wird.
+Auch dieser Container soll nach Ausführung des Befehls gelöscht werden.
+
+Als nächstes starten Sie einen Container vom execute Image im Hintergrund 
+und nennen ihn j_web. Weisen Sie dem Containerport 8000 den Port 8000 auf 
+Ihrer workstation zu. Ausgeführt werden soll die Datei Bild.class, die 
+Sie zuvor auch auf dem Container kompiliert haben. 
+
+Überprüfen Sie im Browser auf workstation, ob das Bild auf localhost:8000/images 
+angezeigt wird.
+
+podman ps -a sollte nun einen Container anzeigen, nämlich j_web für das Bild im Webserver.
+Dieser kann nach Bedarf gestoppt und gestartet werden. 
+
+Um die Container zum Kompilieren und Ausführen zu starten, legen Sie Aliase in students
+.bashrc an, so dass jcompile *.java ausgeführt im working directory alle Javadateien
+kompiliert und jexecute eine Javadatei ausführt. 
+
+Ändern Sie nun noch lokal die Main.java, so dass der Satz "Macht ja doch Spass"
+ausgegeben wir, kompilieren die Datei und lassen den Satz auf der Konsole ausgeben. 
+
+Wir können nun also ohne lokal Java installiert zu haben unsere Container nutzen, 
+um schnell Quellcode zu ändern, zu kompilieren und Ergebnisse auszugeben.
+
